@@ -9,6 +9,7 @@ import (
 
 type Client struct {
   conn *net.Conn
+  reader *bufio.Reader
 }
 
 func NewClient(server string) (*Client, error) {
@@ -19,6 +20,7 @@ func NewClient(server string) (*Client, error) {
   }
   return &Client{
     conn: &conn,
+    reader: bufio.NewReader(conn),
   }, nil
 }
 
@@ -61,6 +63,10 @@ func (c *Client) ReadMessages() {
       c.SendData(strings.Replace(message, "PING", "PONG", 1))
     }
   }
+}
+
+func (c *Client) ReadMessage() (string, error) {
+  return c.reader.ReadString('\n')
 }
 
 func (c *Client) Close() error {
