@@ -3,16 +3,15 @@ package main
 import (
 	"fmt"
 
+	"github.com/eenees/twitch-highlight-tracker/internal/config"
 	"github.com/eenees/twitch-highlight-tracker/internal/irc"
 )
 
-var (
-  server = "irc.chat.twitch.tv:6667"
-  channel = "ohnepixel"
-)
-
 func main() {
-  client, err:= irc.NewClient(server)
+
+  cfg := config.LoadConfig()
+
+  client, err:= irc.NewClient(cfg.Server)
   if err != nil {
     fmt.Println("failed to create client", err)
     return
@@ -24,7 +23,7 @@ func main() {
     return
   }
 
-  err = client.JoinChannel(channel)
+  err = client.JoinChannel(cfg.Channel)
   if err != nil {
     fmt.Println("failed to join channel", err)
     return
