@@ -42,15 +42,23 @@ func sendData(conn net.Conn, message string) {
 
 func readLoop(conn net.Conn) {
 	reader := bufio.NewReader(conn)
+
 	for {
 		message, err := reader.ReadString('\n')
+
 		if err != nil {
 			fmt.Println("Connection closed:", err)
 			return
 		}
-		fmt.Print(message)
 
-		// Respond to PING messages to stay connected
+    if strings.Contains(message, "PRIVMSG") {
+      parts := strings.Split(message, " :")
+      if len(parts) > 1 {
+        userMessage := parts[1]
+        fmt.Println(userMessage)
+      }
+    }
+
 		if strings.HasPrefix(message, "PING") {
 			sendData(conn, strings.Replace(message, "PING", "PONG", 1))
 		}
