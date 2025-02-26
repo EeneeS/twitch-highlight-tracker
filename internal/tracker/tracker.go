@@ -32,6 +32,6 @@ func (t *Tracker) Run() {
       t.client.SendData(strings.Replace(rawMessage, "PING", "PONG", 1))
     }
 
-    fmt.Println(message.Text)
+    fmt.Println(message)
   }
 }
