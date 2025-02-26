@@ -41,30 +41,6 @@ func (c *Client) JoinChannel(channel string) error {
   return err
 }
 
-func (c *Client) ReadMessages() {
-  reader := bufio.NewReader(*c.conn)
-  for {
-    message, err := reader.ReadString('\n')
-
-    if err != nil {
-      fmt.Println("Connection closed", err)
-      return
-    }
-
-    if strings.Contains(message, "PRIVMSG") {
-      parts := strings.Split(message, " :")
-      if len(parts) > 1 {
-        userMessage := parts[1]
-        fmt.Println(userMessage)
-      }
-    }
-
-    if strings.HasPrefix(message, "PING") {
-      c.SendData(strings.Replace(message, "PING", "PONG", 1))
-    }
-  }
-}
-
 func (c *Client) ReadMessage() (string, error) {
   return c.reader.ReadString('\n')
 }
