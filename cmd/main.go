@@ -5,6 +5,7 @@ import (
 
 	"github.com/eenees/twitch-highlight-tracker/internal/config"
 	"github.com/eenees/twitch-highlight-tracker/internal/irc"
+	"github.com/eenees/twitch-highlight-tracker/internal/tracker"
 )
 
 func main() {
@@ -18,7 +19,6 @@ func main() {
   }
   defer client.Close()
 
-
   err = client.Logon()
   if err != nil {
     fmt.Println("failed to logon", err)
@@ -31,5 +31,7 @@ func main() {
     return
   }
 
-  client.ReadMessages()
+  tracker := tracker.NewTracker(client)
+
+  tracker.Run()
 }
