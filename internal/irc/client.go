@@ -62,3 +62,7 @@ func (c *Client) ReadMessages() {
     }
   }
 }
+
+func (c *Client) Close() error {
+  return (*c.conn).Close()
+}

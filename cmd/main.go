@@ -16,6 +16,8 @@ func main() {
     fmt.Println("failed to create client", err)
     return
   }
+  defer client.Close()
+
 
   err = client.Logon()
   if err != nil {
