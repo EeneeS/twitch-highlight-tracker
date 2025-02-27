@@ -11,7 +11,7 @@ import (
 type Tracker struct {
   client *irc.Client
   keywords []string
-  // this should store the timestamps
+  // decide and implement type for timestamps
 }
 
 func NewTracker(client *irc.Client, keywords []string) *Tracker {
