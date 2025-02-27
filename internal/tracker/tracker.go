@@ -2,6 +2,7 @@ package tracker
 
 import (
 	"fmt"
+	"slices"
 	"strings"
 
 	"github.com/eenees/twitch-highlight-tracker/internal/irc"
@@ -9,12 +10,14 @@ import (
 
 type Tracker struct {
   client *irc.Client
+  keywords []string
   // this should store the timestamps
 }
 
-func NewTracker(client *irc.Client) *Tracker {
+func NewTracker(client *irc.Client, keywords []string) *Tracker {
   return &Tracker{
     client: client,
+    keywords: keywords,
   }
 }
 
@@ -32,7 +35,9 @@ func (t *Tracker) ReadIncomming() {
 
     if strings.Contains(raw, "PRIVMSG") {
       message := irc.ParseMessage(raw)
-      fmt.Println(message)
+      if slices.Contains(t.keywords, message.Text) {
+        fmt.Println(message.Text)
+      }
     }
   }
 }
