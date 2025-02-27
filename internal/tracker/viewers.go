@@ -20,11 +20,11 @@ func (t *Tracker) UpdateViewerCount() {
 }
 
 func (t *Tracker) fetchViewerCountFromAPI() (int, error) {
-	return 1000, nil
+	return 1200, nil
 }
 
 func (t *Tracker) GetViewerCount() int {
-	t.viewerLock.RLocker()
+	t.viewerLock.RLock()
 	defer t.viewerLock.RUnlock()
 	return t.viewerCount
 }
