@@ -18,20 +18,21 @@ func NewTracker(client *irc.Client) *Tracker {
   }
 }
 
-func (t *Tracker) Run() {
+func (t *Tracker) ReadIncomming() {
   for {
-    rawMessage, err := t.client.ReadMessage()
+    raw, err := t.client.ReadMessage()
     if err != nil {
-      fmt.Println("failed to read message", err)
-      return
+      fmt.Println("failed to read message")
+      return 
     }
-
-    message := irc.ParseMessage(rawMessage)
-
-    if strings.HasPrefix(rawMessage, "PING") {
-      t.client.SendData(strings.Replace(rawMessage, "PING", "PONG", 1))
+    message := irc.ParseMessage(raw)
+    if strings.HasPrefix(raw, "PING") {
+      t.client.SendData(strings.Replace(raw, "PING", "PONG", 1))
     }
-
     fmt.Println(message)
   }
+}
+
+func (t *Tracker) Run() {
+  t.ReadIncomming()
 }
