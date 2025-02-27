@@ -25,11 +25,15 @@ func (t *Tracker) ReadIncomming() {
       fmt.Println("failed to read message")
       return 
     }
-    message := irc.ParseMessage(raw)
+
     if strings.HasPrefix(raw, "PING") {
       t.client.SendData(strings.Replace(raw, "PING", "PONG", 1))
     }
-    fmt.Println(message)
+
+    if strings.Contains(raw, "PRIVMSG") {
+      message := irc.ParseMessage(raw)
+      fmt.Println(message)
+    }
   }
 }
 

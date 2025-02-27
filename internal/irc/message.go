@@ -11,11 +11,9 @@ type Message struct {
 
 func ParseMessage(message string) *Message {
   msg := Message{Raw: message}
-  if strings.Contains(msg.Raw, "PRIVMSG") {
-      parts := strings.Split(message, " :")
-      if len(parts) > 1 {
-        msg.Text = parts[1]
-      }
+  parts := strings.Split(message, " :")
+  if len(parts) > 1 {
+    msg.Text = parts[1]
   }
   return &msg
 }
