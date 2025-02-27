@@ -21,11 +21,13 @@ type Tracker struct {
 }
 
 func NewTracker(client *irc.Client, keywords []string) *Tracker {
-	return &Tracker{
+	t := &Tracker{
 		client:         client,
 		keywords:       keywords,
 		keywordCounter: make(map[string]int),
 	}
+	go t.UpdateViewerCount()
+	return t
 }
 
 func (t *Tracker) ReadIncomming() {
@@ -80,7 +82,7 @@ func (t *Tracker) StartTimer(keyword string) {
 
 		baseThreshold := 5.0
 
-		// Thanks Claude for the math
+		// Thanks Claude for the math - but still the treshold is waaaaay to large
 		scaledThreshold := baseThreshold
 		if viewerCount > 10 {
 			scaledThreshold = baseThreshold * (1.0 - 0.2*math.Log10(float64(viewerCount)/10.0))
