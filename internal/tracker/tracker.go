@@ -59,6 +59,7 @@ func (t *Tracker) handleTrackedKeyword(keyword string) {
 }
 
 func (t *Tracker) StartTimer(keyword string) {
+    // Thanks Claude for the math
     go func() {
         time.Sleep(time.Second * 15)
         
