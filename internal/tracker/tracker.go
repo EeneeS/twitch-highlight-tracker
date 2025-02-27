@@ -13,6 +13,7 @@ import (
 
 type Tracker struct {
 	client         *irc.Client
+	AccessToken    string
 	keywords       []string
 	keywordCounter map[string]int
 	keywordLock    sync.Mutex
@@ -20,11 +21,12 @@ type Tracker struct {
 	viewerLock     sync.RWMutex
 }
 
-func NewTracker(client *irc.Client, keywords []string) *Tracker {
+func NewTracker(client *irc.Client, keywords []string, accessToken string) *Tracker {
 	t := &Tracker{
 		client:         client,
 		keywords:       keywords,
 		keywordCounter: make(map[string]int),
+		AccessToken:    accessToken,
 	}
 	go t.UpdateViewerCount()
 	return t

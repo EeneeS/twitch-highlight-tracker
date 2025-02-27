@@ -2,10 +2,12 @@ package main
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/eenees/twitch-highlight-tracker/internal/config"
 	"github.com/eenees/twitch-highlight-tracker/internal/irc"
 	"github.com/eenees/twitch-highlight-tracker/internal/tracker"
+	"github.com/eenees/twitch-highlight-tracker/internal/twitch"
 	"github.com/joho/godotenv"
 )
 
@@ -14,6 +16,13 @@ func main() {
 	err := godotenv.Load()
 
 	cfg := config.LoadConfig()
+
+	accessToken, err := twitch.GetAppAccessToken(os.Getenv("TWITCH_CLIENT_ID"), os.Getenv("TWITCH_CLIENT_SECRET"))
+	if err != nil {
+		fmt.Println("failed to get app access token", err)
+		return
+	}
+	cfg.AccessToken = accessToken
 
 	client, err := irc.NewClient(cfg.Server)
 	if err != nil {
@@ -34,7 +43,7 @@ func main() {
 		return
 	}
 
-	tracker := tracker.NewTracker(client, cfg.Keywords)
+	tracker := tracker.NewTracker(client, cfg.Keywords, cfg.AccessToken)
 
 	tracker.Run()
 }
