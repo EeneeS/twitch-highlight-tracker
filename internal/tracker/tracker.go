@@ -8,25 +8,30 @@ import (
 	"sync"
 	"time"
 
+	"github.com/eenees/twitch-highlight-tracker/internal/config"
 	"github.com/eenees/twitch-highlight-tracker/internal/irc"
 )
 
+// TODO: maybe just pass the config struct instead of seperate fields?
 type Tracker struct {
 	client         *irc.Client
-	AccessToken    string
+	accessToken    string
 	keywords       []string
 	keywordCounter map[string]int
 	keywordLock    sync.Mutex
 	viewerCount    int
 	viewerLock     sync.RWMutex
+	channel        string
+	clientId       string
 }
 
-func NewTracker(client *irc.Client, keywords []string, accessToken string) *Tracker {
+func NewTracker(client *irc.Client, cfg *config.Config) *Tracker {
 	t := &Tracker{
 		client:         client,
-		keywords:       keywords,
+		keywords:       cfg.Keywords,
 		keywordCounter: make(map[string]int),
-		AccessToken:    accessToken,
+		accessToken:    cfg.AccessToken,
+		channel:        cfg.Channel,
 	}
 	go t.UpdateViewerCount()
 	return t

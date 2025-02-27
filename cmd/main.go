@@ -43,7 +43,7 @@ func main() {
 		return
 	}
 
-	tracker := tracker.NewTracker(client, cfg.Keywords, cfg.AccessToken)
+	tracker := tracker.NewTracker(client, cfg)
 
 	tracker.Run()
 }
