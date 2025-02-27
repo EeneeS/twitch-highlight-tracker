@@ -14,6 +14,7 @@ func ParseMessage(message string) *Message {
   parts := strings.Split(message, " :")
   if len(parts) > 1 {
     msg.Text = parts[1]
+    msg.Text = strings.Trim(msg.Text, "\r\n")
   }
   return &msg
 }
