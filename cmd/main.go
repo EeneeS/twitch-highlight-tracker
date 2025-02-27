@@ -6,9 +6,12 @@ import (
 	"github.com/eenees/twitch-highlight-tracker/internal/config"
 	"github.com/eenees/twitch-highlight-tracker/internal/irc"
 	"github.com/eenees/twitch-highlight-tracker/internal/tracker"
+	"github.com/joho/godotenv"
 )
 
 func main() {
+
+	err := godotenv.Load()
 
 	cfg := config.LoadConfig()
 
