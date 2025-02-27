@@ -9,7 +9,7 @@ type Config struct {
 func LoadConfig() *Config {
   return &Config{
     Server: "irc.chat.twitch.tv:6667",
-    Channel: "eenees_",
+    Channel: "caedrel",
     Keywords: []string{"LOL", "OOOO"},
   }
 }
