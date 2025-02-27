@@ -31,7 +31,7 @@ func main() {
     return
   }
 
-  tracker := tracker.NewTracker(client)
+  tracker := tracker.NewTracker(client, cfg.Keywords)
 
   tracker.Run()
 }
